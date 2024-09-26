@@ -36,7 +36,6 @@ struct Node *createNode(char new_data[100]){
 }
 void viewNodes( struct linkedList* linked){
    
-   
     struct Node* curr = (*linked).firstNode;
     while(curr != NULL){
         printf("&d",curr -> data[100]);
