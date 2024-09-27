@@ -87,6 +87,20 @@ struct Node *insertAfter(struct linkedList* linked, struct Node* node, struct No
     node -> next = newNode;
 }
 
+
+struct Node *insertBefore(struct linkedList* linked, struct Node* node, struct Node* newNode){
+    newNode -> next = node;
+    if(node -> prev = null){
+        newNode -> next = NULL;
+        linked -> first = newNode;
+    }
+    else{
+        newNode -> prev = node -> prev;
+        node -> prev -> next = newNode;
+    }
+    node -> prev = newNode;
+}
+
 int main(){
     struct Node* first = createNode("hello");
     struct linkedList* listy = createList(first, first);
