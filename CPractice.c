@@ -29,11 +29,11 @@ struct Node *createNode(char new_data[100]){
     return new_node;
 }
 
-struct linkedList *createList(struct Node* first, struct Node* last){
+struct linkedList *createList(){
     struct linkedList* linked = (struct linkedList*)
     malloc(sizeof(struct linkedList));
-    linked -> firstNode = first;
-    linked -> lastNode = last;
+    linked -> firstNode = NULL;
+    linked -> lastNode = NULL;
     return linked;
 
 }
@@ -90,9 +90,9 @@ struct Node *insertAfter(struct linkedList* linked, struct Node* node, struct No
 
 struct Node *insertBefore(struct linkedList* linked, struct Node* node, struct Node* newNode){
     newNode -> next = node;
-    if(node -> prev = null){
+    if(node -> prev = NULL){
         newNode -> next = NULL;
-        linked -> first = newNode;
+        linked -> firstNode = newNode;
     }
     else{
         newNode -> prev = node -> prev;
@@ -101,12 +101,53 @@ struct Node *insertBefore(struct linkedList* linked, struct Node* node, struct N
     node -> prev = newNode;
 }
 
+struct Node *insertBeginning(struct linkedList* linked, struct Node* newNode){
+    if(linked -> firstNode == NULL){
+        linked -> firstNode = newNode;
+        linked  -> lastNode = newNode;
+        newNode -> prev = NULL;
+        newNode -> next = NULL;
+    }
+    
+    else{
+        insertBefore(linked, linked -> firstNode, newNode);
+    }
+}
+
+struct Node *insertEnd(struct linkedList* linked, struct Node* newNode){
+    if(linked -> lastNode == NULL){
+        insertBeginning(linked, newNode);
+    }
+    else{
+        insertAfter(linked, linked -> lastNode, newNode);
+    }
+}
+
+void removed(struct linkedList* linked, struct Node* node){
+    if(node -> prev == NULL){
+        linked -> firstNode = node -> next;
+    }
+    else{
+        node -> prev -> next = node -> next;
+    }
+    if(node -> next == NULL){
+        linked -> lastNode = node -> prev;
+    }
+    else{
+        node -> next -> prev = node -> prev;
+    }
+}
+
 int main(){
     struct Node* first = createNode("hello");
-    struct linkedList* listy = createList(first, first);
+    struct linkedList* linked = createList();
+    
+    insertEnd(linked, first);
     struct Node* second = createNode("bye");
-    insertAfter(listy, first, second);
+    insertEnd(linked, second);
+    removed(linked, second);
+    viewForwardList(linked);
 
-    viewForwardList(listy);
+
     
 }
